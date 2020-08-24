@@ -64,20 +64,25 @@ $the_query;
 	$out .= '<ul class="flex-container">';
 	while( $the_query->have_posts() ) : $the_query->the_post();
 					$out .= '<li class="flex-item">';
-					$out .= '<div style="float:left; padding-right:10px; display:block;max-width:33%"><img src="'.get_field( 'picture' ).'""></div>';
-					$out .= '<div style="min-width:300px;margin-left:10px;">';
-					$out .= '<h3 style="margin-top:0px;margin-bottom:0px;">'.get_field( 'first_name' ).' '.get_field( 'last_name' ).', '.get_field( 'suffix' ).'</h3>';
+					$out .= '<div class="person-flex">';
+					$out .= '<div style="clear:right;"><img style="max-height:200px;display:block;margin:auto;" src="'.get_field( 'picture' ).'""></div>';
+					$out .= '<div class="person-text">';
+					$out .= '<h3 style="margin-top:5px;margin-bottom:0px;">'.get_field( 'first_name' ).' '.get_field( 'last_name' ).', '.get_field( 'suffix' ).'</h3>';
 					$out .= '<p style="overflow:hidden;">';
 					$out .= get_field('program').'<br>';
 					$fields = ["medical_school","undergraduate_school"];
 					foreach ($fields as $field){
 						$item = get_field_object($field);
 						if($item['value']):
-							$out .= '<b>'.$item['label'].': </b><br>' . $item['value'] . '<br>';
+							$out .= '<b>'.$item['label'].': </b>' . $item['value'] . '<br>';
 						endif;
 					}
-					$out .= '<a href="'.get_permalink().'">View Full Profile</a>';
+					$buttonshortcode = do_shortcode('[button color=purple type=small=true url="'.get_permalink().'"]View Full Profile[/button]');
+					
 					$out .= '<br></p></div>';
+					$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
+					$out .= '</div>';
+					$out .= '</div>';
 
 		$out .= '</li>';
 		$i++;
@@ -86,6 +91,7 @@ $the_query;
 	endif;
 
 wp_reset_query();
+$out .= "</table>";
 return $out;
 }
 
