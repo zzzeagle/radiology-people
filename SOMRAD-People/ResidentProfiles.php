@@ -13,6 +13,7 @@ function list_rad_people( $atts ){
 		'section' => '',
 		'fields' => '',
 		'labels' => 'true',
+		'graduation_year' => '',
 	), $atts );
 	
 	
@@ -31,6 +32,11 @@ $args = array(
 			   array(
 					'key' => 'section',
 					'value' => $a['section'],
+					'compare' => 'LIKE',
+			   ),
+			   array(
+					'key' => 'graduation_year',
+					'value' => $a['graduation_year'],
 					'compare' => 'LIKE',
 			   ),
 			   'section_chief' => array(
