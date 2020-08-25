@@ -87,15 +87,26 @@ $the_query;
 					$out .= '<div class="person-text'. $sectionchiefstyle. '">';
 					$out .= '<h3 style="margin-top:5px;margin-bottom:0px;">'.get_field( 'first_name' ).' '.get_field( 'last_name' ).', '.get_field( 'suffix' ).'</h3>';
 					$out .= '<p style="overflow:hidden;">';
+					
+					//If the field has a colon, split the field and check if no-label is specified.
 					$fields = explode(",", $a['fields']);
 					foreach ($fields as $field){
+						$label = $a['labels'];
+						if (strstr($field, ':')):
+							$exploded_field = explode(":",$field);
+							$field = $exploded_field[0];
+							if($exploded_field[1] == "no-label"):
+								$label = "false";
+							endif;
+						endif;
+						
 						$item = get_field_object($field);
 						if($item['value']):
 							$value = $item['value'];
 							if(is_array($value)):
 								$value = implode(", ",  $value);
 							endif;
-							if($a['labels'] == 'false'):
+							if($label == 'false'):
 								$out .= $value . '<br>';
 							else:
 								$out .= '<b>'.$item['label'].': </b>' . $value . '<br>';
