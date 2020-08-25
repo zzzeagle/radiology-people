@@ -21,6 +21,7 @@
   text-align: left;
   
 }
+
 .inner-flex-container {
   display: flex;
   flex-flow: row wrap;
@@ -64,9 +65,42 @@
 	padding: 15px;
 }
 .person-flex img {
+	max-height:200px;
+	display:block;
+	margin:auto;
 	filter: drop-shadow(5px 5px 4px #cecece);
 }
 .person-more {
 	margin-top:auto;
 	text-align:center;
+}
+
+.flex-item-section-chief {
+  background:white;
+  padding: 12.5px;
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  line-height: auto;
+  color: #4b2e83;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: left;
+  
+}
+
+.person-flex-section-chief {
+	display:flex;
+	flex-flow:row wrap;
+	justify-content: space-around;
+	height:100%;
+	border: 2px solid #CECECE;
+	padding: 15px;
+}
+
+.person-flex-section-chief img {
+	max-height:250px;
+	display:block;
+	margin:auto;
+	filter: drop-shadow(5px 5px 4px #cecece);
 }
