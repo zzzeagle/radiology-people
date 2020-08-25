@@ -14,10 +14,20 @@ function list_rad_people( $atts ){
 		'fields' => '',
 		'labels' => 'true',
 		'graduation_year' => '',
+		'fellowship_program' => '',
+		'fellowship_year' => '',
+		'no_button' => 'false',
 	), $atts );
 	
 	
 $out .= '<table>';
+
+if($a['fellowship_year']):
+   $fellowship_year_array = array('key' => 'uw_fellowship_graduation_year','value' => $a['fellowship_year'],'compare' => 'LIKE',);
+endif;
+if($a['fellowship_program']):
+   $fellowship_program_array = array('key' => 'uw_fellowship_alumni_program','value' => $a['fellowship_program'],'compare' => 'LIKE',);
+endif;
 
 $args = array(
 	'numberposts'	=> -1,
@@ -39,6 +49,8 @@ $args = array(
 					'value' => $a['graduation_year'],
 					'compare' => 'LIKE',
 			   ),
+			   'fellowship_year' => $fellowship_year_array,
+			   'fellowship_program' => $fellowship_program_array,
 			   'section_chief' => array(
 					'key' => 'section_chief',
 					'compare' => 'exists',
@@ -90,13 +102,15 @@ $the_query;
 							endif;
 						endif;
 					}
-					$buttonshortcode = do_shortcode('[button color=purple type=small=true url="'.get_permalink().'"]View Full Profile[/button]');
-					if($sc==1):
-						$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
-					endif;
-					$out .= '<br></p></div>';
-					if($sc==0):
-						$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
+					if($a['no_button'] == 'false'):
+						$buttonshortcode = do_shortcode('[button color=purple type=small=true url="'.get_permalink().'"]View Full Profile[/button]');
+						if($sc==1):
+							$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
+						endif;
+						$out .= '<br></p></div>';
+						if($sc==0):
+							$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
+						endif;
 					endif;
 					$out .= '</div>';
 					$out .= '</div>';
