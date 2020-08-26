@@ -1,22 +1,23 @@
 <?php
-/**
-* Plugin Name: SOMRAD - List People
-* Description: This plugin will be used to list People
-* Version: 0.0.1
-* Author: Zachary Eagle
-*/
-
+function noHTMLFaculty($input, $encoding = 'UTF-8'){
+		return htmlentities($input, ENT_QUOTES | ENT_HTML5, $encoding);
+}
 
 function list_rad_people( $atts ){
+  $clinical_section = noHTMLFaculty(get_query_var( 'clinical_section'));
+  $clinical_section = ucwords(str_replace('%20', ' ', $clinical_section));
+
+	
 	$a = shortcode_atts( array(
 		'classification' => '',
-		'section' => '',
+		'section' => $clinical_section,
 		'fields' => '',
 		'labels' => 'true',
 		'graduation_year' => '',
 		'fellowship_program' => '',
 		'fellowship_year' => '',
 		'no_button' => 'false',
+		'new' => 'false',
 	), $atts );
 	
 	
@@ -27,6 +28,22 @@ if($a['fellowship_year']):
 endif;
 if($a['fellowship_program']):
    $fellowship_program_array = array('key' => 'uw_fellowship_alumni_program','value' => $a['fellowship_program'],'compare' => 'LIKE',);
+endif;
+if($a['graduation_year']):
+   $graduation_year_array = array('key' => 'graduation_year','value' => $a['graduation_year'],'compare' => 'LIKE',);
+endif;
+
+if($a['new']=='true'):
+	$date = date('Y-m-d');
+	$startdate = date('Y-m-d',(strtotime ( '-1 year' , strtotime ( $date) ) ));
+	$new_people_array = array('key' => 'start_date','value' => $startdate,'compare' => '>=','type' => 'DATE');
+endif;
+
+
+if($a['section']):
+	$orderby = array('section_chief' => 'DESC','last_name' => 'ASC',);
+else:
+	$orderby = array('last_name' => 'ASC',);
 endif;
 
 $args = array(
@@ -44,13 +61,10 @@ $args = array(
 					'value' => $a['section'],
 					'compare' => 'LIKE',
 			   ),
-			   array(
-					'key' => 'graduation_year',
-					'value' => $a['graduation_year'],
-					'compare' => 'LIKE',
-			   ),
+			   'graduation_year' => $graduation_year_array,
 			   'fellowship_year' => $fellowship_year_array,
 			   'fellowship_program' => $fellowship_program_array,
+			   'new_people' => $new_people_array,
 			   'section_chief' => array(
 					'key' => 'section_chief',
 					'compare' => 'exists',
@@ -60,8 +74,7 @@ $args = array(
 					'compare' => 'exists',
 					),
 			),
-	'orderby' =>  array('section_chief' => 'DESC',
-						'last_name' => 'ASC',),
+	'orderby' => $orderby,
 
 );
 
@@ -74,7 +87,7 @@ $the_query;
 	$i = 0;
 	$out .= '<ul class="flex-container">';
 	while( $the_query->have_posts() ) : $the_query->the_post();
-					if($i==0 and get_field('section_chief')==1):
+					if($i==0 and get_field('section_chief')==1 and $a['section']):
 						$sc = 1;
 						$sectionchiefstyle = '-section-chief';
 					else:
@@ -85,7 +98,13 @@ $the_query;
 					$out .= '<div class="person-flex'. $sectionchiefstyle. '">';
 					$out .= '<div style="clear:right;"><img class="person-image" style="" src="'.get_field( 'picture' ).'""></div>';
 					$out .= '<div class="person-text'. $sectionchiefstyle. '">';
-					$out .= '<h3 style="margin-top:5px;margin-bottom:0px;">'.get_field( 'first_name' ).' '.get_field( 'last_name' ).', '.get_field( 'suffix' ).'</h3>';
+					
+					//if person has a suffix, get the suffix.
+					$suffix = "";
+					if (get_field('suffix')):
+						$suffix = ', ' . get_field('suffix');
+					endif;
+					$out .= '<h3 style="margin-top:5px;margin-bottom:0px;">'.get_field( 'first_name' ).' '.get_field( 'last_name' ). $suffix .'</h3>';
 					$out .= '<p style="overflow:hidden;">';
 					
 					//If the field has a colon, split the field and check if no-label is specified.
@@ -143,3 +162,9 @@ function person_flex_style() {
     wp_enqueue_style( 'style-name', plugins_url('person-flex.css',__FILE__ ));
 }
 add_action( 'wp_enqueue_scripts', 'person_flex_style' );
+
+function add_query_vars_filter( $vars ){
+  $vars[] = "clinical_section";
+  return $vars;
+}
+add_filter( 'query_vars', 'add_query_vars_filter' );
