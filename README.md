@@ -1,1 +1,1 @@
-radiology-people
+This is a WordPress plugin used by the University of Washington Department of Radiology to manage the public faculty profiles on their website.
