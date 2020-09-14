@@ -70,7 +70,9 @@
 		<br>
 		<?php 
 		$classification = get_field('classification');
+		$isresident = False;
 		if(in_array('Resident - R2', $classification) || in_array('Resident - R3', $classification)|| in_array('Resident - R4', $classification)|| in_array('Resident - R5', $classification)){
+			$isresident = True;
 			echo '<h4><a href="http://rad.washington.edu/education/radiology-residency/meet-our-residents/">See All Radiology Residents</a></h4>';
 		}?>
 		<h4><a href="http://www.rad.washington.edu/radiology-personnel">See All Radiology Faculty</a></h4>
@@ -79,8 +81,13 @@
 	<div class="col-md-9 uw-content bio-content">
         <h1 style="margin-top:0px;"><?php the_field( 'first_name' )?> <?php  the_field( 'last_name' );?><?php if(get_field('suffix')): echo ', '; the_field( 'suffix' );endif;?></h1>
         <?php the_field( 'position' ) ?><br>
-        <?php the_field( 'section' ) ?><br>
-        <?php if(get_field( 'twitter' )):
+        <?php
+		if (!$isresident):
+			echo the_field('section') . '<br>';
+		endif;
+		
+		
+		if(get_field( 'twitter' )):
         	echo '<br><a class="twitter-follow-button" href="https://twitter.com/';
         	echo the_field('twitter');
         	echo '" data-size="large" data-show-count="false">Follow @';

@@ -23,6 +23,7 @@
       		<ul>
       			<li><a href="./?clinical_section=abdominal%20imaging">Abdominal Imaging</a></li>
       			<li><a href="./?clinical_section=breast%20imaging">Breast Imaging</a></li>
+				<li><a href="./?clinical_section=Cardiothoracic%20radiology">Cardiothoracic Radiology</a></li>
       			<li><a href="./?clinical_section=diagnostic%20physics">Diagnostic Physics</a></li>
       			<li><a href="./?clinical_section=emergency%20radiology">Emergency Radiology</a></li>
       			<li><a href="./?clinical_section=interventional%20radiology">Interventional Radiology</a></li>
@@ -30,7 +31,6 @@
       			<li><a href="./?clinical_section=neuroradiology">Neuroradiology</a></li>
       			<li><a href="./?clinical_section=nuclear%20medicine">Nuclear Medicine</a></li>
       			<li><a href="./?clinical_section=pediatric%20radiology">Pediatric Radiology</a></li>
-      		    <li><a href="./?clinical_section=thoracic%20radiology">Thoracic Radiology</a></li>
 				<li><a href="./?clinical_section=VA%20Health%20Services%20Of%20Puget%20Sound">VA Health Services of Puget Sound</a></li>
       		      	
       		</ul>
