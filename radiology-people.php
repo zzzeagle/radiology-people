@@ -74,6 +74,7 @@ add_action( 'init', 'person', 0 );
 			$people[$key]->picture = get_field('picture', $person->ID);
 			$people[$key]->last_name = get_field('last_name', $person->ID);
 			$people[$key]->first_name = get_field('first_name', $person->ID);
+			$people[$key]->suffix = get_field('suffix', $person->ID);
 			$people[$key]->section = get_field('section', $person->ID);
 			$people[$key]->classification = get_field('classification', $person->ID);
 			$people[$key]->position = get_field('position', $person->ID);
