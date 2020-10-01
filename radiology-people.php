@@ -151,3 +151,4 @@ add_filter( 'single_template', 'get_radiology_people_single_template' );
 
 
 include( plugin_dir_path(__FILE__) . 'list-rad-people.php');
+include( plugin_dir_path(__FILE__) . 'list-rad-people-text.php');
