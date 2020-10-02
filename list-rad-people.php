@@ -40,8 +40,12 @@ if($a['new']=='true'):
 endif;
 
 
-if($a['section']):
+if($a['section'] && $a['classification']==='faculty'):
 	$orderby = array('section_chief' => 'DESC','last_name' => 'ASC',);
+	$section_chief_exists = array('key' => 'section_chief','compare' => 'exists',);
+elseif($a['classification']==='staff'):
+     $orderby = array('admin_leaders' => 'DESC','last_name' => 'ASC',);
+	 $admin_leaders_exists = array('key' => 'admin_leaders','compare' => 'exists',);
 else:
 	$orderby = array('last_name' => 'ASC',);
 endif;
@@ -65,10 +69,8 @@ $args = array(
 			   'fellowship_year' => $fellowship_year_array,
 			   'fellowship_program' => $fellowship_program_array,
 			   'new_people' => $new_people_array,
-			   'section_chief' => array(
-					'key' => 'section_chief',
-					'compare' => 'exists',
-					),
+			   'admin_leaders' => $admin_leaders_exists,
+			   'section_chief' => $section_chief_exists,
 				'last_name' => array(
 					'key' => 'last_name',
 					'compare' => 'exists',
