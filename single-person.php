@@ -12,8 +12,12 @@
 
       <div id='main_content' class="uw-body-copy" tabindex="-1">
       <div class="col-md-3 uw-content">
-      		<?php if(get_field( 'picture' )):?>
-			<img src="<?php echo the_field( 'picture' )?>" width="200px">
+      		<?php if(get_field( 'picture' )):
+				$size = 'medium';
+				$image = get_field('picture');
+				$medImage = $image['sizes'][$size];
+			?>
+			<img src="<?php echo $medImage;?>">
 		<?php endif; ?>
 		<?php if(get_field( 'cv' )):?>
 			<?php $cv =  get_field('cv')?>

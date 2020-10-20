@@ -98,7 +98,12 @@ $the_query;
 					endif;
 					$out .= '<li class="flex-item'. $sectionchiefstyle. '">';
 					$out .= '<div class="person-flex'. $sectionchiefstyle. '">';
-					$out .= '<div style="clear:right;"><img class="person-image" style="" src="'.get_field( 'picture' ).'""></div>';
+					$image = get_field('picture');
+					if($image):
+						$size = 'medium';
+						$mugshot = $image['sizes'][$size];
+						$out .= '<div style="clear:right;"><img class="person-image" style="" src="'.$mugshot.'""></div>';
+					endif;
 					$out .= '<div class="person-text'. $sectionchiefstyle. '">';
 					
 					//if person has a suffix, get the suffix.
