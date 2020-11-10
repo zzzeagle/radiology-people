@@ -71,7 +71,8 @@ add_action( 'init', 'person', 0 );
 	'post_status'	=> array('private', 'publish'),
   ) );
 	foreach ($people as $key => $person) {
-			$people[$key]->picture = get_field('picture', $person->ID);
+			$picture = get_field('picture', $person->ID);
+			$people[$key]->picure = $picture['url'];
 			$people[$key]->last_name = get_field('last_name', $person->ID);
 			$people[$key]->first_name = get_field('first_name', $person->ID);
 			$people[$key]->suffix = get_field('suffix', $person->ID);

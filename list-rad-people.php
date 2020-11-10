@@ -5,12 +5,15 @@ function noHTMLFaculty($input, $encoding = 'UTF-8'){
 
 function list_rad_people( $atts ){
   $clinical_section = noHTMLFaculty(get_query_var( 'clinical_section'));
-  $clinical_section = ucwords(str_replace('%20', ' ', $clinical_section));
+  $clinical_section = ucwords(str_replace('%20', ' ', $research_group));
+  $research_group = noHTMLFaculty(get_query_var( 'research_group'));
+  $research_group = ucwords(str_replace('%20', ' ', $research_group));
 
 	
 	$a = shortcode_atts( array(
 		'classification' => '',
 		'section' => $clinical_section,
+		'research_group' => $research_group,
 		'fields' => '',
 		'labels' => 'true',
 		'graduation_year' => '',
@@ -22,6 +25,10 @@ function list_rad_people( $atts ){
 	
 	
 $out .= '<table>';
+
+if($a['research_group']):
+   $research_group_array = array('key' => 'research_group','value' => $a['research_group'],'compare' => 'LIKE',);
+endif;
 
 if($a['fellowship_year']):
    $fellowship_year_array = array('key' => 'uw_fellowship_graduation_year','value' => $a['fellowship_year'],'compare' => 'LIKE',);
@@ -65,6 +72,7 @@ $args = array(
 					'value' => $a['section'],
 					'compare' => 'LIKE',
 			   ),
+			   'research_group' => $research_group_array,
 			   'graduation_year' => $graduation_year_array,
 			   'fellowship_year' => $fellowship_year_array,
 			   'fellowship_program' => $fellowship_program_array,
@@ -102,7 +110,7 @@ $the_query;
 					if($image):
 						$size = 'medium';
 						$mugshot = $image['sizes'][$size];
-						$out .= '<div style="clear:right;"><img class="person-image" style="" src="'.$mugshot.'""></div>';
+						$out .= '<div style="clear:right;"><img class="person-image" loading="lazy" style="" src="'.$mugshot.'""></div>';
 					endif;
 					$out .= '<div class="person-text'. $sectionchiefstyle. '">';
 					
