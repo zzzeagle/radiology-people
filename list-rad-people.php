@@ -5,7 +5,7 @@ function noHTMLFaculty($input, $encoding = 'UTF-8'){
 
 function list_rad_people( $atts ){
   $clinical_section = noHTMLFaculty(get_query_var( 'clinical_section'));
-  $clinical_section = ucwords(str_replace('%20', ' ', $research_group));
+  $clinical_section = ucwords(str_replace('%20', ' ', $clinical_section));
   $research_group = noHTMLFaculty(get_query_var( 'research_group'));
   $research_group = ucwords(str_replace('%20', ' ', $research_group));
 
@@ -21,6 +21,7 @@ function list_rad_people( $atts ){
 		'fellowship_year' => '',
 		'no_button' => 'false',
 		'new' => 'false',
+		'leader' => '',
 	), $atts );
 	
 	
@@ -47,7 +48,7 @@ if($a['new']=='true'):
 endif;
 
 
-if($a['section'] && $a['classification']==='faculty'):
+if($a['section'] && strtolower($a['classification'])=='faculty'):
 	$orderby = array('section_chief' => 'DESC','last_name' => 'ASC',);
 	$section_chief_exists = array('key' => 'section_chief','compare' => 'exists',);
 elseif($a['classification']==='staff'):
@@ -92,12 +93,24 @@ $args = array(
 // query
 $the_query = new WP_Query( $args );
 $the_query;
+
+//if leader exists, move them to the front of the query
+if($a['leader']):
+   $leader_id = get_page_by_title ( $a['leader'], OBJECT, 'person');
+   $leader_index = array_search($leader_id->ID, wp_list_pluck($the_query->posts, 'ID'), true);
+   $leader_post = $the_query->posts[$leader_index];
+   unset($the_query->posts[$leader_index]);
+   array_unshift($the_query->posts, $leader_post);
+endif;
 ?>
 <?php if( $the_query->have_posts() ):
 	$i = 0;
 	$out .= '<ul class="flex-container">';
 	while( $the_query->have_posts() ) : $the_query->the_post();
 					if($i==0 and get_field('section_chief')==1 and $a['section']):
+						$sc = 1;
+						$sectionchiefstyle = '-section-chief';
+					elseif($i==0 and $a['leader']):
 						$sc = 1;
 						$sectionchiefstyle = '-section-chief';
 					else:
