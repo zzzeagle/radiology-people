@@ -21,6 +21,20 @@
   text-align: left;
   
 }
+.flex-item-text {
+  background:white;
+  padding: 0px;
+  width: 360px;
+  height: auto;
+  margin-top: 0px;
+  line-height: auto;
+  color: #4b2e83;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: left;
+  
+}
+
 
 .inner-flex-container {
   display: flex;

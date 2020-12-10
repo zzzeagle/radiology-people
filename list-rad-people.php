@@ -5,7 +5,7 @@ function noHTMLFaculty($input, $encoding = 'UTF-8'){
 
 function list_rad_people( $atts ){
   $clinical_section = noHTMLFaculty(get_query_var( 'clinical_section'));
-  $clinical_section = ucwords(str_replace('%20', ' ', $research_group));
+  $clinical_section = ucwords(str_replace('%20', ' ', $clinical_section));
   $research_group = noHTMLFaculty(get_query_var( 'research_group'));
   $research_group = ucwords(str_replace('%20', ' ', $research_group));
 
@@ -21,10 +21,34 @@ function list_rad_people( $atts ){
 		'fellowship_year' => '',
 		'no_button' => 'false',
 		'new' => 'false',
+		'fullwidth' => 'false',
+		'section_chiefs' => 'false',
+		'vice_chairs' => 'false',
+		'admin_leaders' => 'false',
+		'clinical_leaders' => 'false',
+		'edu_leaders' => 'false',
 	), $atts );
 	
 	
 $out .= '<table>';
+
+// added vice chairs, admin leaders, clinical leaders & edu leaders
+if($a['section_chiefs']==='true'):
+   $section_chief_array = array('key' => 'section_chief','value' => '1','compare' => 'LIKE',);
+   endif;
+if($a['vice_chairs']==='true'):
+   $vice_chairs_array = array('key' => 'vice_chairs','value' => '1','compare' => 'LIKE',);
+   endif;
+if($a['admin_leaders']==='true'):
+   $admin_leaders_array = array('key' => 'admin_leaders','value' => '1','compare' => 'LIKE',);
+   endif;
+if($a['clinical_leaders']==='true'):
+   $clinical_leaders_array = array('key' => 'clinical_leaders','value' => '1','compare' => 'LIKE',);
+   endif;
+if($a['edu_leaders']==='true'):
+   $edu_leaders_array = array('key' => 'edu_leaders','value' => '1','compare' => 'LIKE',);
+   
+endif;
 
 if($a['research_group']):
    $research_group_array = array('key' => 'research_group','value' => $a['research_group'],'compare' => 'LIKE',);
@@ -79,6 +103,12 @@ $args = array(
 			   'new_people' => $new_people_array,
 			   'admin_leaders' => $admin_leaders_exists,
 			   'section_chief' => $section_chief_exists,
+			   // added vice chairs, admin leaders, clinical leaders & edu leaders
+				$section_chief_array,
+				$vice_chairs_array,
+				$admin_leaders_array,
+				$clinical_leaders_array,
+				$edu_leaders_array,
 				'last_name' => array(
 					'key' => 'last_name',
 					'compare' => 'exists',
@@ -104,13 +134,17 @@ $the_query;
 						$sc = 0;
 						$sectionchiefstyle = '';
 					endif;
+					//if($a['fullwidth'] = 'true'):
+						//$sectionchiefstyle = '-section-chief';
+					//endif;
+					
 					$out .= '<li class="flex-item'. $sectionchiefstyle. '">';
 					$out .= '<div class="person-flex'. $sectionchiefstyle. '">';
 					$image = get_field('picture');
 					if($image):
 						$size = 'medium';
 						$mugshot = $image['sizes'][$size];
-						$out .= '<div style="clear:right;"><img class="person-image" loading="lazy" style="" src="'.$mugshot.'""></div>';
+						$out .= '<div class="person-image" style="clear:right;"><img class="person-image" loading="lazy" style="" src="'.$mugshot.'""></div>';
 					endif;
 					$out .= '<div class="person-text'. $sectionchiefstyle. '">';
 					
@@ -152,11 +186,12 @@ $the_query;
 						if($sc==1):
 							$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
 						endif;
-						$out .= '<br></p></div>';
+						
 						if($sc==0):
 							$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
 						endif;
 					endif;
+					$out .= '<br></p></div>';
 					$out .= '</div>';
 					$out .= '</div>';
 
