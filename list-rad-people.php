@@ -19,36 +19,23 @@ function list_rad_people( $atts ){
 		'graduation_year' => '',
 		'fellowship_program' => '',
 		'fellowship_year' => '',
-		'no_button' => 'false',
-		'new' => 'false',
-		'fullwidth' => 'false',
-		'section_chiefs' => 'false',
-		'vice_chairs' => 'false',
-		'admin_leaders' => 'false',
-		'clinical_leaders' => 'false',
-		'edu_leaders' => 'false',
+		'no_button' => false,
+		'section_button' => false,
+		'education_button' => false,
+		'new' => false,
+		'fullwidth' => false,
+		'order' => false,
+		'top_label' => false,
+		'leadership_group' => false,
 	), $atts );
 	
 	
 $out .= '<table>';
 
-// added vice chairs, admin leaders, clinical leaders & edu leaders
-if($a['section_chiefs']==='true'):
-   $section_chief_array = array('key' => 'section_chief','value' => '1','compare' => 'LIKE',);
-   endif;
-if($a['vice_chairs']==='true'):
-   $vice_chairs_array = array('key' => 'vice_chairs','value' => '1','compare' => 'LIKE',);
-   endif;
-if($a['admin_leaders']==='true'):
-   $admin_leaders_array = array('key' => 'admin_leaders','value' => '1','compare' => 'LIKE',);
-   endif;
-if($a['clinical_leaders']==='true'):
-   $clinical_leaders_array = array('key' => 'clinical_leaders','value' => '1','compare' => 'LIKE',);
-   endif;
-if($a['edu_leaders']==='true'):
-   $edu_leaders_array = array('key' => 'edu_leaders','value' => '1','compare' => 'LIKE',);
-   
-endif;
+if($a['leadership_group']){
+   $leadership_array = array('key' => $a['leadership_group'],'value' => '1','compare' => 'LIKE',);
+}
+
 
 if($a['research_group']):
    $research_group_array = array('key' => 'research_group','value' => $a['research_group'],'compare' => 'LIKE',);
@@ -71,15 +58,21 @@ if($a['new']=='true'):
 endif;
 
 
-if($a['section'] && $a['classification']==='faculty'):
-	$orderby = array('section_chief' => 'DESC','last_name' => 'ASC',);
+if($a['section'] && $a['classification']==='faculty'){
+	$orderby = array('section_chief' => 'DESC','first_name' => 'ASC',);
 	$section_chief_exists = array('key' => 'section_chief','compare' => 'exists',);
-elseif($a['classification']==='staff'):
+}
+elseif($a['classification']==='staff'){
      $orderby = array('admin_leaders' => 'DESC','last_name' => 'ASC',);
 	 $admin_leaders_exists = array('key' => 'admin_leaders','compare' => 'exists',);
-else:
+}
+elseif($a['order']){
+	$orderby_exists = array('key' => $a['order'],'compare' => 'exists',);
+	$orderby = array($a['order'] => 'ASC',);
+}
+else{
 	$orderby = array('last_name' => 'ASC',);
-endif;
+}
 
 $args = array(
 	'numberposts'	=> -1,
@@ -103,12 +96,7 @@ $args = array(
 			   'new_people' => $new_people_array,
 			   'admin_leaders' => $admin_leaders_exists,
 			   'section_chief' => $section_chief_exists,
-			   // added vice chairs, admin leaders, clinical leaders & edu leaders
-				$section_chief_array,
-				$vice_chairs_array,
-				$admin_leaders_array,
-				$clinical_leaders_array,
-				$edu_leaders_array,
+				$leadership_array,
 				'last_name' => array(
 					'key' => 'last_name',
 					'compare' => 'exists',
@@ -117,6 +105,9 @@ $args = array(
 	'orderby' => $orderby,
 
 );
+if($a['order']):
+	$args['meta_query'][$a['order']] = $orderby_exists;
+endif;
 
 
 // query
@@ -140,6 +131,18 @@ $the_query;
 					
 					$out .= '<li class="flex-item'. $sectionchiefstyle. '">';
 					$out .= '<div class="person-flex'. $sectionchiefstyle. '">';
+					//if person has a suffix, get the suffix.
+					$suffix = "";
+					if (get_field('suffix')):
+						$suffix = ', ' . get_field('suffix');
+					endif;
+					
+					if($a['top_label']){
+						$top_field = get_field_object($a['top_label']);
+						$out .= "<div style='height:110px'><h4>".$top_field['value']."</h4>";
+						$out .= '<div style="bottom:0px"><h4 style="margin-top:5px;margin-bottom:0px;color:black;">'.get_field( 'first_name' ).' '.get_field( 'last_name' ). $suffix .'</h4></div></div>';
+					}
+					
 					$image = get_field('picture');
 					if($image):
 						$size = 'medium';
@@ -148,12 +151,9 @@ $the_query;
 					endif;
 					$out .= '<div class="person-text'. $sectionchiefstyle. '">';
 					
-					//if person has a suffix, get the suffix.
-					$suffix = "";
-					if (get_field('suffix')):
-						$suffix = ', ' . get_field('suffix');
-					endif;
-					$out .= '<h3 style="margin-top:5px;margin-bottom:0px;">'.get_field( 'first_name' ).' '.get_field( 'last_name' ). $suffix .'</h3>';
+					if(!($a['top_label'])){
+						$out .= '<h3 style="margin-top:5px;margin-bottom:0px;color:black;">'.get_field( 'first_name' ).' '.get_field( 'last_name' ). $suffix .'</h3>';
+					}
 					$out .= '<p style="overflow:hidden;">';
 					
 					//If the field has a colon, split the field and check if no-label is specified.
@@ -181,7 +181,9 @@ $the_query;
 							endif;
 						endif;
 					}
-					if($a['no_button'] == 'false'):
+					$out .= '<br></p></div>';
+					
+					if($a['no_button'] == false):
 						$buttonshortcode = do_shortcode('[button color=purple type=small=true url="'.get_permalink().'"]View Full Profile[/button]');
 						if($sc==1):
 							$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
@@ -191,7 +193,25 @@ $the_query;
 							$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
 						endif;
 					endif;
-					$out .= '<br></p></div>';
+					
+					
+					//Button to section people page
+					if($a['section_button'] == 'true'){
+						$sections = get_field('section');
+						foreach($sections as $section){
+							$sectionshortcode = do_shortcode('[button color=gold type=small=true url="https://uwradstage.wpengine.com/radiology-personnel/?clinical_section='.$section.'"]View Section[/button]');
+							$out .= '<div class="person-more">'. $sectionshortcode . '</div>';
+						}
+					}
+					
+					//Button to fellowship/residency page
+					if($a['education_button'] == 'true'){
+						$edu_button_url = get_field('education_program_link');
+						if($edu_button_url){
+							$edu_button_code = do_shortcode('[button color=gold type=small=true url="'.$edu_button_url.'"]View Program[/button]');
+							$out .= '<div class="person-more">'. $edu_button_code . '</div>';
+						}
+					}
 					$out .= '</div>';
 					$out .= '</div>';
 
