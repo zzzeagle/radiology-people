@@ -75,11 +75,15 @@
 		<?php 
 		$classification = get_field('classification');
 		$isresident = False;
-		if(in_array('Resident - R2', $classification) || in_array('Resident - R3', $classification)|| in_array('Resident - R4', $classification)|| in_array('Resident - R5', $classification)){
+		if(!(in_array('IR Resident', $classification)) && (in_array('Resident - R2', $classification) || in_array('Resident - R3', $classification)|| in_array('Resident - R4', $classification)|| in_array('Resident - R5', $classification))){
 			$isresident = True;
-			echo '<h4><a href="http://rad.washington.edu/education/radiology-residency/meet-our-residents/">See All Radiology Residents</a></h4>';
+			echo '<h4><a href="/education/radiology-residency/meet-our-residents/">See All Radiology Residents</a></h4>';
+		}
+		if(in_array('IR Resident', $classification)){
+			$isresident = True;
+			echo '<h4><a href="/education/interventional-radiology-programs/meet-residents-fellows/">See All IR Residents</a></h4>';
 		}?>
-		<h4><a href="http://www.rad.washington.edu/radiology-personnel">See All Radiology Faculty</a></h4>
+		<h4><a href="/radiology-personnel">See All Radiology Faculty</a></h4>
 		
 	</div>
 	<div class="col-md-9 uw-content bio-content">
@@ -196,7 +200,7 @@
 				endif;
 			}
 			if(get_field( 'fun_picture' )):
-				$out .= '<div style="float:left; display:block; clear:both;"><img style="padding-top:15px;" src="'.get_field( 'fun_picture' ).'"></div>';
+				$out .= '<div style="display:block; clear:both;"><img style="padding-top:15px;" src="'.get_field( 'fun_picture' ).'"></div>';
 			endif;
 			if(get_field( 'caption_for_fun_picture' )):
 				$out .= get_field( 'caption_for_fun_picture' );
