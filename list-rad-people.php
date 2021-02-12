@@ -60,7 +60,7 @@ endif;
 
 
 
-if($a['section'] && strtolower($a['classification'])=='faculty'):
+if($a['section'] && strtolower($a['classification'])=='faculty'){
 	$orderby = array('section_chief' => 'DESC','last_name' => 'ASC',);
 	$section_chief_exists = array('key' => 'section_chief','compare' => 'exists',);
 }
