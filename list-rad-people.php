@@ -28,6 +28,8 @@ function list_rad_people( $atts ){
 		'top_label' => false,
 		'leadership_group' => false,
 		'leader' => '',
+		'list' => false,
+		'single' => false,
 	), $atts );
 	
 	
