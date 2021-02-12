@@ -113,6 +113,17 @@ if($a['order']):
 	$args['meta_query'][$a['order']] = $orderby_exists;
 endif;
 
+if($a['single']): 
+	$args['title'] = $a['single']; 
+endif; 
+ 
+if($a['list']): 
+	$post_titles = explode(",",$a['list']); 
+	$args['post_name__in'] = $post_titles; 
+	unset($args['orderby']); 
+	$args['order'] = 'ASC'; 
+	$args['orderby'] = 'post_name__in'; 
+endif; 
 
 // query
 $the_query = new WP_Query( $args );
