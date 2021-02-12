@@ -27,6 +27,7 @@ function list_rad_people( $atts ){
 		'order' => false,
 		'top_label' => false,
 		'leadership_group' => false,
+		'leader' => '',
 	), $atts );
 	
 	
@@ -58,8 +59,9 @@ if($a['new']=='true'):
 endif;
 
 
-if($a['section'] && $a['classification']==='faculty'){
-	$orderby = array('section_chief' => 'DESC','first_name' => 'ASC',);
+
+if($a['section'] && strtolower($a['classification'])=='faculty'):
+	$orderby = array('section_chief' => 'DESC','last_name' => 'ASC',);
 	$section_chief_exists = array('key' => 'section_chief','compare' => 'exists',);
 }
 elseif($a['classification']==='staff'){
@@ -113,12 +115,24 @@ endif;
 // query
 $the_query = new WP_Query( $args );
 $the_query;
+
+//if leader exists, move them to the front of the query
+if($a['leader']):
+   $leader_id = get_page_by_title ( $a['leader'], OBJECT, 'person');
+   $leader_index = array_search($leader_id->ID, wp_list_pluck($the_query->posts, 'ID'), true);
+   $leader_post = $the_query->posts[$leader_index];
+   unset($the_query->posts[$leader_index]);
+   array_unshift($the_query->posts, $leader_post);
+endif;
 ?>
 <?php if( $the_query->have_posts() ):
 	$i = 0;
 	$out .= '<ul class="flex-container">';
 	while( $the_query->have_posts() ) : $the_query->the_post();
 					if($i==0 and get_field('section_chief')==1 and $a['section']):
+						$sc = 1;
+						$sectionchiefstyle = '-section-chief';
+					elseif($i==0 and $a['leader']):
 						$sc = 1;
 						$sectionchiefstyle = '-section-chief';
 					else:
