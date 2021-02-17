@@ -28,8 +28,10 @@ function list_rad_people( $atts ){
 		'top_label' => false,
 		'leadership_group' => false,
 		'leader' => '',
+		'site' => false,
 		'list' => false,
 		'single' => false,
+		'sort' => false,
 	), $atts );
 	
 	
@@ -60,7 +62,9 @@ if($a['new']=='true'):
 	$new_people_array = array('key' => 'start_date','value' => $startdate,'compare' => '>=','type' => 'DATE');
 endif;
 
-
+if($a['site']):
+   $clinical_leaders_site = array('key' => 'clinical_leaders_site','value' => $a['site'],'compare' => 'LIKE',);
+endif;
 
 if($a['section'] && strtolower($a['classification'])=='faculty'){
 	$orderby = array('section_chief' => 'DESC','last_name' => 'ASC',);
@@ -73,6 +77,9 @@ elseif($a['classification']==='staff'){
 elseif($a['order']){
 	$orderby_exists = array('key' => $a['order'],'compare' => 'exists',);
 	$orderby = array($a['order'] => 'ASC',);
+}
+elseif($a['sort']){
+	$orderby = array($a['sort'] => 'ASC',);
 }
 else{
 	$orderby = array('last_name' => 'ASC',);
@@ -100,6 +107,7 @@ $args = array(
 			   'new_people' => $new_people_array,
 			   'admin_leaders' => $admin_leaders_exists,
 			   'section_chief' => $section_chief_exists,
+			   'clinical_leaders_site'=> $clinical_leaders_site,
 				$leadership_array,
 				'last_name' => array(
 					'key' => 'last_name',
