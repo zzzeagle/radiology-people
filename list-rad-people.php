@@ -32,6 +32,7 @@ function list_rad_people( $atts ){
 		'list' => false,
 		'single' => false,
 		'sort' => false,
+		'email' => false,
 	), $atts );
 	
 	
@@ -216,6 +217,10 @@ endif;
 							endif;
 						endif;
 					}
+					if($a['email'] == true):
+						$email = get_the_title() . '@uw.edu';
+						$out .='<a href="mailto:' . $email .'">'.$email.'</a>';
+					endif;					
 					$out .= '<br></p></div>';
 					
 					if($a['no_button'] == false):
