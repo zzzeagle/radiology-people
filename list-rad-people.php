@@ -239,7 +239,7 @@ endif;
 					if($a['section_button'] == 'true'){
 						$sections = get_field('section');
 						foreach($sections as $section){
-							$sectionshortcode = do_shortcode('[button color=gold type=small=true url="https://uwradstage.wpengine.com/radiology-personnel/?clinical_section='.$section.'"]View Section[/button]');
+							$sectionshortcode = do_shortcode('[button color=gold type=small=true url="./radiology-personnel/?clinical_section='.$section.'"]View Section[/button]');
 							$out .= '<div class="person-more">'. $sectionshortcode . '</div>';
 						}
 					}
