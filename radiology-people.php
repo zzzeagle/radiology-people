@@ -32,7 +32,7 @@ function person() {
 		'description'         => __( 'Radiology Person', 'text_domain' ),
 		'labels'              => $labels,
 		'menu_icon'	      => 'dashicons-admin-users',
-		'supports'            => array( 'title', 'custom-fields', ),
+		'supports'            => array( 'title', 'custom-fields', 'page-attributes' ),
 		'taxonomies'          => array( 'category', 'post_tag' ),
 		'hierarchical'        => false,
 		'public'              => true,

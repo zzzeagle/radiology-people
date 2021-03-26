@@ -7,7 +7,7 @@ function list_rad_people_text( $atts ){
   $clinical_section = noHTMLFaculty(get_query_var( 'clinical_section'));
   $clinical_section = ucwords(str_replace('%20', ' ', $clinical_section));
 
-	
+// added vice chairs, admin leaders, clinical leaders & edu leaders	
 	$a = shortcode_atts( array(
 		'classification' => '',
 		'section' => $clinical_section,
@@ -15,18 +15,39 @@ function list_rad_people_text( $atts ){
 		'labels' => 'true',
 		'no_button' => 'false',
 		'section_chiefs' => 'false',
+		'vice_chairs' => 'false',
+		'admin_leaders' => 'false',
+		'clinical_leaders' => 'false',
+		'edu_leaders' => 'false',
 	), $atts );
 	
 	
 $out .= '<table>';
-
+// added vice chairs, admin leaders, clinical leaders & edu leaders
 if($a['section_chiefs']==='true'):
    $section_chief_array = array('key' => 'section_chief','value' => '1','compare' => 'LIKE',);
+   endif;
+if($a['vice_chairs']==='true'):
+   $vice_chairs_array = array('key' => 'vice_chairs','value' => '1','compare' => 'LIKE',);
+   endif;
+if($a['admin_leaders']==='true'):
+   $admin_leaders_array = array('key' => 'admin_leaders','value' => '1','compare' => 'LIKE',);
+   endif;
+if($a['clinical_leaders']==='true'):
+   $clinical_leaders_array = array('key' => 'clinical_leaders','value' => '1','compare' => 'LIKE',);
+   endif;
+if($a['edu_leaders']==='true'):
+   $edu_leaders_array = array('key' => 'edu_leaders','value' => '1','compare' => 'LIKE',);
+   
 endif;
 
-
-if($a['section']):
+// added vice chairs, admin leaders, clinical leaders & edu leaders
+if($a['section'] && $a['classification']=='faculty'):
 	$orderby = array('section_chief' => 'DESC','last_name' => 'ASC',);
+elseif($a['section'] && $a['classification']=='staff'):
+
+     $orderby = array('admin_leaders' => 'DESC','last_name' => 'ASC',);	
+
 else:
 	$orderby = array('last_name' => 'ASC',);
 endif;
@@ -46,7 +67,13 @@ $args = array(
 					'value' => $a['section'],
 					'compare' => 'LIKE',
 			   ),
+// added vice chairs, admin leaders, clinical leaders & edu leaders
 				$section_chief_array,
+				$vice_chairs_array,
+				$admin_leaders_array,
+				$clinical_leaders_array,
+				$edu_leaders_array,
+				
 
 				'last_name' => array(
 					'key' => 'last_name',
@@ -74,7 +101,7 @@ $the_query;
 						$sectionchiefstyle = '';
 					endif;
 					$out .= '<li class="flex-item-text'. $sectionchiefstyle. '">';
-					
+
 					//if person has a suffix, get the suffix.
 					$suffix = "";
 					if (get_field('suffix')):
