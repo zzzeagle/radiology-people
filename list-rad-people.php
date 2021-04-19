@@ -17,6 +17,7 @@ function list_rad_people( $atts ){
 		'fields' => '',
 		'labels' => 'true',
 		'graduation_year' => '',
+		'nm_residency_graduation_year'=>'',
 		'fellowship_program' => '',
 		'fellowship_year' => '',
 		'no_button' => false,
@@ -53,10 +54,14 @@ endif;
 if($a['fellowship_program']):
    $fellowship_program_array = array('key' => 'uw_fellowship_alumni_program','value' => $a['fellowship_program'],'compare' => 'LIKE',);
 endif;
+
+if($a['nm_residency_graduation_year']):
+   $graduation_year_array = array('key' => 'nm_residency_graduation_year','value' => $a['nm_residency_graduation_year'],'compare' => 'LIKE',);
+endif;
+
 if($a['graduation_year']):
    $graduation_year_array = array('key' => 'graduation_year','value' => $a['graduation_year'],'compare' => 'LIKE',);
 endif;
-
 if($a['new']=='true'):
 	$date = date('Y-m-d');
 	$startdate = date('Y-m-d',(strtotime ( '-1 year' , strtotime ( $date) ) ));
@@ -102,6 +107,7 @@ $args = array(
 					'compare' => 'LIKE',
 			   ),
 			   'research_group' => $research_group_array,
+			   'nm_residency_graduation_year' => $nm_residency_graduation_year,
 			   'graduation_year' => $graduation_year_array,
 			   'fellowship_year' => $fellowship_year_array,
 			   'fellowship_program' => $fellowship_program_array,
