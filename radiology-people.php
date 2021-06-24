@@ -81,6 +81,7 @@ add_action( 'init', 'person', 0 );
 			$people[$key]->position = get_field('position', $person->ID);
 			$people[$key]->scopus_author_id = get_field('scopus_author_id', $person->ID);			
 			$people[$key]->semantic_scholar_author_id = get_field('semantic_scholar_author_id', $person->ID);			
+			$people[$key]->overnight_attending = get_field('overnight_attending', $person->ID);			
 			$people[$key]->section_chief = get_field('section_chief', $person->ID);
 			$image = get_field('picture', $person->ID);
 			$faceboard = $image['sizes']['faceboard'];
