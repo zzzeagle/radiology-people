@@ -156,27 +156,6 @@
 		
 		<!--Scopus Publications section-->
 		<?php while ( have_posts() ) : the_post(); ?>
-		<?php 
-
-		/*
-		*  Query posts for a relationship value.
-		*  This method uses the meta_query LIKE to match the string "123" to the database value a:1:{i:0;s:3:"123";} (serialized array)
-		*/
-		$publications = get_posts(array(
-			'post_type' => 'publication',
-			'posts_per_page' => '10',
-			'orderby'	=> 'meta_value',
-			'meta_key'	=> 'publication_date',
-			'order'		=> 'DESC',
-			'meta_query' => array(
-				array(
-					'key' => 'uwauthors', // name of custom field
-					'value' => get_the_ID(), // matches exaclty "123", not just 123. This prevents a match for "1234"
-					'compare' => '=',
-				)
-			)
-		));
-		?>
 		
 		<!--Resident Profile Fields-->
 		<?php
@@ -210,31 +189,8 @@
 
 		?>	
 	
-		<?php if( $publications ){
-			$pubs = "";
-		$pubs .= '<h3 style="margin-bottom:0px">Recent Publications</h3>';
-		$pubs .= '<a target="_blank" href="https://www.scopus.com/authid/detail.uri?authorId='.get_field('scopus_author_id', $publication->ID) .'">See all publications on Scopus</a>';
-		$pubs .= "<br><br>";
-		
-		foreach( $publications as $publication ){
-				$pubs .= '<a target="_blank" href="https://www.scopus.com/record/display.uri?eid='.get_field('scopusid', $publication->ID).'&origin=inward&txGid=0">'.get_the_title($publication->ID)."</a>";
-				$pubs .= "<br>";
-				$pubs .= get_field('authors', $publication->ID);
-				$pubs .= "<br>";
-				$pubs .= get_field('source', $publication->ID);
-				$pubs .= '. ';
-					$pubdate = get_field('publication_date', $publication->ID);
-					$formattedPubDate = date("Y M", strtotime($pubdate));
-				$pubs .= $formattedPubDate;
-				if("" !== get_field('pages', $publication->ID)){
-					$pubs .= ":";
-					$pubs .= get_field('pages', $publication->ID);
-				};
-				$pubs .= "<br><br>";
-				
-			};
-		echo $pubs;
-		};
+		<?php
+		echo do_shortcode('[list-rad-publications-person person_id="'.get_the_ID().'"]');
 
 		endwhile; // end of the loop. ?>
 
