@@ -87,7 +87,7 @@
 		
 	</div>
 	<div class="col-md-9 uw-content bio-content">
-        <h1 style="margin-top:0px;"><?php the_field( 'first_name' )?> <?php  the_field( 'last_name' );?><?php if(get_field('suffix')): echo ', '; the_field( 'suffix' );endif;?></h1>
+        <h1 style="margin-top:0px;"><?php the_field( 'first_name' )?><?php if(get_field('middle_name')):echo " "; the_field( 'middle_name' );endif;?> <?php  the_field( 'last_name' );?><?php if(get_field('suffix')): echo ', '; the_field( 'suffix' );endif;?></h1>
         <?php the_field( 'position' ) ?><br>
         <?php
 		if (!$isresident):

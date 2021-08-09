@@ -179,10 +179,17 @@ endif;
 						$suffix = ', ' . get_field('suffix');
 					endif;
 					
+					$middleName = "";
+					if (get_field('middle_name')):
+						$middleName = ' ' . get_field('middle_name');
+					endif;
+					
+					
+					
 					if($a['top_label']){
 						$top_field = get_field_object($a['top_label']);
 						$out .= "<div style='height:110px'><h4>".$top_field['value']."</h4>";
-						$out .= '<div style="bottom:0px"><h4 style="margin-top:5px;margin-bottom:0px;color:black;">'.get_field( 'first_name' ).' '.get_field( 'last_name' ). $suffix .'</h4></div></div>';
+						$out .= '<div style="bottom:0px"><h4 style="margin-top:5px;margin-bottom:0px;color:black;">'.get_field( 'first_name' ).$middleName.' '.get_field( 'last_name' ). $suffix .'</h4></div></div>';
 					}
 					
 					$image = get_field('picture');
@@ -194,7 +201,7 @@ endif;
 					$out .= '<div class="person-text'. $sectionchiefstyle. '">';
 					
 					if(!($a['top_label'])){
-						$out .= '<h3 style="margin-top:5px;margin-bottom:0px;color:black;">'.get_field( 'first_name' ).' '.get_field( 'last_name' ). $suffix .'</h3>';
+						$out .= '<h3 style="margin-top:5px;margin-bottom:0px;color:black;">'.get_field( 'first_name' ).$middleName.' '.get_field( 'last_name' ). $suffix .'</h3>';
 					}
 					$out .= '<p style="overflow:hidden;">';
 					
