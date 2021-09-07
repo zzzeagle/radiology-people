@@ -101,7 +101,9 @@
         	echo '" data-size="large" data-show-count="false">Follow @';
         	echo the_field('twitter');
         	echo '</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
-        endif; ?>
+        endif;
+		echo do_shortcode('[su_accordion class=""rad-accordion][su_spoiler title="Contact Me" open="no" style="default" icon="plus" anchor="" anchor_in_url="no" class="rad-accordion"][wpforms id="27113" title="false"][/su_spoiler][/su_accordion]');
+		?>
         <?php if(get_field( 'biography' )):
         	echo "<h3>Biography</h3>";
         	the_field( 'biography' );
