@@ -34,7 +34,23 @@
   text-align: left;
   
 }
-
+.flex-item  li{
+  font-size: 17px;
+  line-height: 1.72222;
+  margin: 0 0 0;
+  font-weight: normal;
+  color: #3D3D3D;
+  -webkit-font-smoothing: antialiased;
+}
+.person-text{
+  font-size: 17px;
+  line-height: 1.72222;
+  padding-bottom: 10px;
+  margin: 0 0 0;
+  font-weight: normal;
+  color: #3D3D3D;
+  -webkit-font-smoothing: antialiased;
+}
 
 .inner-flex-container {
   display: flex;
@@ -53,7 +69,8 @@
 	margin-right:10px;
   text-align: center;
   
-}.inner-flex-text {
+}
+.inner-flex-text {
   height: auto;
   min-width:210px;
   max-width:100%;
@@ -97,9 +114,6 @@
   height: auto;
   margin-top: 10px;
   line-height: auto;
-  color: #4b2e83;
-  font-weight: bold;
-  font-size: 3em;
   text-align: left;
   
 }

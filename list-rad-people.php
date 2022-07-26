@@ -73,11 +73,11 @@ if($a['site']):
 endif;
 
 if($a['section'] && strtolower($a['classification'])=='faculty'){
-	$orderby = array('section_chief' => 'DESC','last_name' => 'ASC',);
+	$orderby = array('section_chief' => 'DESC','last_name' => 'ASC','first_name'=> 'ASC');
 	$section_chief_exists = array('key' => 'section_chief','compare' => 'exists',);
 }
 elseif($a['classification']==='staff'){
-     $orderby = array('admin_leaders' => 'DESC','last_name' => 'ASC',);
+     $orderby = array('admin_leaders' => 'DESC','last_name' => 'ASC','first_name'=> 'ASC');
 	 $admin_leaders_exists = array('key' => 'admin_leaders','compare' => 'exists',);
 }
 elseif($a['order']){
@@ -88,7 +88,7 @@ elseif($a['sort']){
 	$orderby = array($a['sort'] => 'ASC',);
 }
 else{
-	$orderby = array('last_name' => 'ASC',);
+	$orderby = array('last_name' => 'ASC','first_name'=> 'ASC');
 }
 
 $args = array(
@@ -120,6 +120,10 @@ $args = array(
 					'key' => 'last_name',
 					'compare' => 'exists',
 					),
+				'first_name' => array(
+					'key' => 'first_name',
+					'compare' => 'exists',
+				)
 			),
 	'orderby' => $orderby,
 
@@ -203,7 +207,6 @@ endif;
 					if(!($a['top_label'])){
 						$out .= '<h3 style="margin-top:5px;margin-bottom:0px;color:black;">'.get_field( 'first_name' ).$middleName.' '.get_field( 'last_name' ). $suffix .'</h3>';
 					}
-					$out .= '<p style="overflow:hidden;">';
 					
 					//If the field has a colon, split the field and check if no-label is specified.
 					$fields = explode(",", $a['fields']);
@@ -224,7 +227,7 @@ endif;
 								$value = implode(", ",  $value);
 							endif;
 							if($label == 'false'):
-								$out .= $value . '<br>';
+								$out .= '<span>'.$value . '</span>';
 							else:
 								$out .= '<b>'.$item['label'].': </b>' . $value . '<br>';
 							endif;
@@ -234,16 +237,16 @@ endif;
 						$email = get_the_title() . '@uw.edu';
 						$out .='<a href="mailto:' . $email .'">'.$email.'</a>';
 					endif;					
-					$out .= '<br></p></div>';
+					$out .= '<br></p>';
 					
 					if($a['no_button'] == false):
 						$buttonshortcode = do_shortcode('[button color=purple type=small=true url="'.get_permalink().'"]View Full Profile[/button]');
 						if($sc==1):
-							$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
+							$out .= '<div class="person-more">'. $buttonshortcode . '</div></div>';
 						endif;
 						
 						if($sc==0):
-							$out .= '<div class="person-more">'. $buttonshortcode . '</div>';
+							$out .= '</div><div class="person-more">'. $buttonshortcode . '</div>';
 						endif;
 					endif;
 					

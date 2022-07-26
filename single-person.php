@@ -102,7 +102,7 @@
         	echo the_field('twitter');
         	echo '</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
         endif;
-		echo do_shortcode('[su_accordion class=""rad-accordion][su_spoiler title="Contact Me" open="no" style="default" icon="plus" anchor="" anchor_in_url="no" class="rad-accordion"][wpforms id="27113" title="false"][/su_spoiler][/su_accordion]');
+		echo do_shortcode('[su_accordion class=""rad-accordion][su_spoiler title="Contact Me" open="no" style="default" icon="plus" anchor="" anchor_in_url="no" class="rad-accordion"][wpforms id="27567" title="false"][/su_spoiler][/su_accordion]');
 		?>
         <?php if(get_field( 'biography' )):
         	echo "<h3>Biography</h3>";
@@ -161,7 +161,8 @@
 		
 		<!--Resident Profile Fields-->
 		<?php
-		if (in_category( 'Residency' )):
+		#if (in_category( 'Residency' )):
+		if ($isresident):
 			$out = '';
 			$fields = ["medical_school",
 						"undergraduate_school",
