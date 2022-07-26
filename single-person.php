@@ -44,11 +44,9 @@
 		$resp = curl_exec($curl);
 		
 		if (strpos($resp,'Page Not Found') == false) {
-			echo "<h3><a href='".$url."'>UW Medicine Biography</a></h3>";
+			echo "<h2><a href='".$url."'>UW Medicine Biography</a></h2>";
     		}
-
-		
-		// Close request to clear up some resources
+			// Close request to clear up some resources
 		curl_close($curl);
 		?>
 		<!--SCCA Bio Link-->
