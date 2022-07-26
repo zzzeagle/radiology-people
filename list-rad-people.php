@@ -227,7 +227,7 @@ endif;
 								$value = implode(", ",  $value);
 							endif;
 							if($label == 'false'):
-								$out .= '<span>'.$value . '</span><br>';
+								$out .= '<span>'.$value . '</span>';
 							else:
 								$out .= '<b>'.$item['label'].': </b>' . $value . '<br>';
 							endif;
