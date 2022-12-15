@@ -104,6 +104,10 @@
 		##Commented out 9/9/2022 due to spam
 		#echo do_shortcode('[su_accordion class=""rad-accordion][su_spoiler title="Contact Me" open="no" style="default" icon="plus" anchor="" anchor_in_url="no" class="rad-accordion"][wpforms id="27567" title="false"][/su_spoiler][/su_accordion]');
 		?>
+		<?php if(get_field( 'expertise' )):
+        	echo "<h3>Expertise</h3>";
+        	the_field( 'expertise' );
+        endif; ?>
         <?php if(get_field( 'biography' )):
         	echo "<h3>Biography</h3>";
         	the_field( 'biography' );
@@ -115,10 +119,6 @@
         <?php if(get_field( 'education' )):
         echo "<h3>Education</h3>";
         the_field( 'education' );
-        endif; ?>
-		<?php if(get_field( 'expertise' )):
-        echo "<h3>Expertise</h3>";
-        the_field( 'expertise' );
         endif; ?>
 		<?php while ( have_posts() ) : the_post(); ?>
 		<?php 
