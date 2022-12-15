@@ -116,6 +116,10 @@
         echo "<h3>Education</h3>";
         the_field( 'education' );
         endif; ?>
+		<?php if(get_field( 'expertise' )):
+        echo "<h3>Expertise</h3>";
+        the_field( 'expertise' );
+        endif; ?>
 		<?php while ( have_posts() ) : the_post(); ?>
 		<?php 
 
